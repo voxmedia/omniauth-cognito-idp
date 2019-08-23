@@ -72,6 +72,18 @@ module OmniAuth
         )
       end
 
+      # Override this method to pass through various params from the request
+      def authorize_params
+        super.merge(
+          request.params.slice(
+            'identity_provider',
+            'idp_identifier',
+            'code_challenge_method',
+            'code_challenge'
+          )
+        )
+      end
+
       def id_token
         access_token['id_token']
       end
