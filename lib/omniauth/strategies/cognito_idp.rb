@@ -62,14 +62,9 @@ module OmniAuth
 
       private
 
-      # Override this method to remove the query string from the callback_url because Cognito
-      # requires an exact match
-      def build_access_token
-        client.auth_code.get_token(
-          request.params['code'],
-          { redirect_uri: callback_url.split('?').first }.merge(token_params.to_hash(symbolize_keys: true)),
-          deep_symbolize(options.auth_token_params)
-        )
+      # Override this method to remove the query string because Cognito requires an exact match
+      def callback_url
+        full_host + script_name + callback_path
       end
 
       # Override this method to pass through various params from the request
